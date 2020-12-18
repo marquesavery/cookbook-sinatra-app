@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
-    validates_presence_of :username, :email
+    validates_presence_of :email
+    validates_uniqueness_of :email, :message
     has_secure_password
-    has_many :recipes
+    has_many :recipes 
+    has_many :ingredients
   
     def slug
       username.downcase.split(" ").join("-")
