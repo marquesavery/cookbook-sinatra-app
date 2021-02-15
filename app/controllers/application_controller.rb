@@ -13,9 +13,9 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     if logged_in?
-      redirect '/tweets'
+      redirect '/recipes'
     end
-    erb :welcome
+    erb :index
   end
 
   helpers do

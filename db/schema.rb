@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20201217210000) do
     t.string "name"
     t.text   "bio"
     t.string "email"
+    t.string "username"
     t.string "password_digest"
   end
 

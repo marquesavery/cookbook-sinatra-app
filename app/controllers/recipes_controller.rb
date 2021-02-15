@@ -27,16 +27,16 @@ class RecipesController < ApplicationController
         erb :'/recipes/new'
     end
 
-    get '/recipes/:id' do
+    get '/recipes/:slug' do
         if !logged_in?
             redirect '/login'
         end
 
-        @recipe = Recipe.find_by_id(params[:id])
+        @recipe = Recipe.find_by_slug(params[:slug])
         erb :'/recipes/show'
     end
 
-    get '/recipes/:id/edit' do
+    get '/recipes/:slug/edit' do
         if logged_in?
             @recipe = Recipe.find_by_id(params[:id])
             if @recipe && @recipe.user == current_user
@@ -56,10 +56,10 @@ class RecipesController < ApplicationController
             else 
                 @recipe = Recipe.find_by_id(params[:id])
                 if @recipe && @recipe.user == current_user
-                    if @recipe.update(content: params[:content])
-                        redirect "/recipes/#{@recipe.id}"
+                    if @recipe.update(instructions: params[:instructions])
+                        redirect "/recipes/#{@recipe.slug}"
                     else
-                        redirect "/recipes/#{@recipe.id}/edit"
+                        redirect "/recipes/#{@recipe.slug}/edit"
                     end
                     redirect '/recipes'
                 end
@@ -70,7 +70,6 @@ class RecipesController < ApplicationController
     end
 
     delete '/recipes/:id/delete' do
-        # binding.pry
         if logged_in?
             @recipe = Recipe.find_by_id(params[:id])
             if @recipe && @recipe.user == current_user
