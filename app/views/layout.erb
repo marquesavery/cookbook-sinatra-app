@@ -11,7 +11,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
   </head>
   <body>
 
@@ -19,8 +19,6 @@
       <a href="/recipes">Cookbook</a>
       <%if logged_in?%>
         <a href="/users/<%=@user.slug%>">My Recipes</a>
-      <%else%>
-        <a href="/login">
       <%end%>
       <a href="/ingredients">Ingredients</a>
       <%if logged_in?%>

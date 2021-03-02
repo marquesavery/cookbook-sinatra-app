@@ -4,8 +4,10 @@
     <a class="button" href="/signup">Sign Up</a>
 </div>
 
-<ul>
-    <%Recipe.all.each do |recipe|%>
-        <li><a href='/recipes/<%=recipe.id%>'> <%= recipe.instructions%></a></li>
-    <%end%>
-</ul>
+<%if logged_in?%>
+    <ul>
+        <%Recipe.all.each do |recipe|%>
+            <li><a href='/recipes/<%=recipe.id%>'> <%= recipe.instructions%></a></li>
+        <%end%>
+    </ul>
+<%end%>
