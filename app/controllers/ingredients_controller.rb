@@ -8,29 +8,63 @@ class IngredientsController < ApplicationController
     end
     
     get '/ingredients/new' do
+        if !logged_in?
+            redirect '/login'
+        end
+
         erb :'/ingredients/new'
+    end
+
+    get '/ingredients/:slug' do
+        if !logged_in?
+            redirect '/login'
+        end
+
+        @ingredient = Ingredient.find_by_slug(params[:slug])
+        erb :'/ingredients/show'
     end
     
     post '/ingredients' do
-        if Ingredient.find_by_name(params[:name])  
+        if Ingredient.find_by_name(params[:ingredient].downcase)  
             flash[:message] = "That ingredient already exists. Please add a new Ingredient."
             redirect to "/ingredients/new"
         else
-            @ingredient = Landmark.create(params[:landmark])
-            @ingredient.save
+            @ingredient = Ingredient.create(:name => params[:ingredient].downcase, :user_id => current_user.id)
             redirect to "/ingredients"
         end
     end
 
-    delete '/ingredients/:id/delete' do
+    get '/ingredients/:slug/edit' do
         if logged_in?
-            @ingredient = Ingredient.find_by_id(params[:id])
+            @ingredient = Ingredient.find_by_slug(params[:slug])
+            erb :'/ingredients/edit'
+        else
+            redirect '/login'
+        end
+    end
+
+    patch '/ingredients/:slug' do
+        if logged_in?
+            @ingredient = Ingredient.find_by_slug(params[:slug])
             if @ingredient && @ingredient.user == current_user
-                @ingredient.delete
-            else
-                flash[:message] = "Only the creator of the ingredient can delete it."
+                @ingredient.update(name: params[:ingredient])
+                redirect "/ingredients/#{@ingredient.slug}"
             end
-            redirect '/ingredients'
+        else
+            redirect '/login'
+        end
+    end
+
+    delete '/ingredients/:slug/delete' do
+        if logged_in?
+            @ingredient = Ingredient.find_by_slug(params[:slug])
+            if @ingredient && @ingredient.user == current_user
+                @ingredient.destroy
+                redirect '/ingredients'
+            else
+                flash[:message] = "To delete the ingredient you need to be the creator"
+                redirect "/ingredients/#{@ingredient.slug}"
+            end
         else
             redirect '/login'
         end

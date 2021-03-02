@@ -1,5 +1,11 @@
 <h1>Welcome to Cookbook</h1>
 <div class="content">
-
-    <p>Hello World</p>
+    <a class="button" href="/login">Sign In</a></br>
+    <a class="button" href="/signup">Sign Up</a>
 </div>
+
+<ul>
+    <%Recipe.all.each do |recipe|%>
+        <li><a href='/recipes/<%=recipe.id%>'> <%= recipe.instructions%></a></li>
+    <%end%>
+</ul>

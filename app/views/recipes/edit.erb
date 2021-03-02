@@ -1,21 +1,21 @@
-<h2>Edit Recipe</h2>
+<h2><a href="/recipes/<%=@recipe.slug%>"> <%=@recipe.name%></a></h2>
 
-<form action="/recipes/<%= @tweet.id %>" method="POST">
-    <input id="hidden" type="hidden" name="_method" value="patch">
+<form action="/recipes/<%= @recipe.slug %>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="PATCH">
     
-    <h3>Name</h3>
+    <h3>Recipe name:</h3>
     <input type='text' name='recipe[name]' value="<%=@recipe.name%>">
     <br><br>
 
     <h3>Ingredients</h3>
     <% Ingredient.all.each do |ingredients| %>
         <label><%= ingredients.name %></label>
-        <input type="checkbox" name="recipe[ingredient_ids][]" value="<%= ingredients.id %>" <%='checked' if @recipe.ingredients.include?(ingredients) %>> 
+        <input type="checkbox" name="ingredients[]" value="<%= ingredients.id %>" <%='checked' if @recipe.ingredients.include?(ingredients) %>> 
         <br>
     <% end %>
     <br><br>
-    <label>Instructions:</label>
-    <input type='text' name="instructions" value="<%=@recipe.instructions%>"><br>
+    <label>Instructions:</label> <br>
+    <textarea type='text' name="recipe[instructions]"><%=@recipe.instructions%></textarea>
     <br><br>
 
     <input type="submit" value="submit">

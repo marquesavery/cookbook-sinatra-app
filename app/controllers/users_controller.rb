@@ -13,7 +13,7 @@ class UsersController < ApplicationController
             redirect "/recipes"
         end
 
-        user = User.new(:email => params[:email], :password => params[:password])    
+        user = User.new(:email => params[:email], :username => params[:username], :password => params[:password])    
         if user.save
             session[:user_id] = user.id
             redirect "/recipes"

@@ -5,10 +5,16 @@
   }
   
   body {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
   }
   
+  textarea {
+    resize: none;
+  }
   /* Style the top navigation bar */
   .topnav {
     overflow: hidden;
@@ -34,8 +40,8 @@
   /* Style the content */
   .content {
     background-color: #ddd;
+    flex-grow: 1;
     padding: 10px;
-    height: 200px; /* Should be removed. Only for demonstration */
   }
   
   /* Style the footer */
@@ -43,6 +49,7 @@
     background-color: #f1f1f1;
     padding: 10px;
   }
+
 
 }
 

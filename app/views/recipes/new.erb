@@ -1,0 +1,21 @@
+<form action="/recipes" method="POST">
+    <h3>Recipe Name:</h3>
+    <input type="text" name="recipe[name]" required>
+
+    <br><br>
+
+    <h3>Ingredients</h3>
+    <% Ingredient.all.each do |ingredient| %>
+        <label><%= ingredient.name %></label>
+        <input type="checkbox" name='ingredients[]' value="<%=ingredient.id%>">
+        <br>
+    <% end %>
+
+    <br><br>
+
+    <h3>Instructions:</h3>
+    <textarea name="recipe[instructions]" required></textarea>
+    <br><br>
+    
+    <input type="submit" value="Create New Recipe">
+</form>

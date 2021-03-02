@@ -1,0 +1,10 @@
+<h1>Ingredients</h1>
+
+<a href="/ingredients/new">New Ingredient</a>
+<br><br>
+
+<% Ingredient.all.each do |ingredient| %>
+    <li><a href='/ingredients/<%=ingredient.slug%>'> <%= ingredient.name %></a></li>
+    <a href="/ingredients/<%=ingredient.slug%>/edit">Edit</a>
+    <br>
+<% end %>

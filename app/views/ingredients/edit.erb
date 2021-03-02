@@ -1,0 +1,7 @@
+ <h1>Ingredient:</h1>
+<form action="/ingredients/<%= @ingredient.slug%>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="PATCH">
+    <input type="text" name="ingredient" value="<%=@ingredient.name%>" required>
+
+    <input type="submit" value="Edit Ingredient">
+</form>

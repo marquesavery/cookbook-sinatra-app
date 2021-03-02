@@ -1,0 +1,10 @@
+<h1>All Recipes</h1>
+
+<a href="/recipes/new">New Recipe </a>
+<ul>
+    <%Recipe.all.each do |recipe|%>
+        <li><a href='/recipes/<%=recipe.slug%>'><%=recipe.name%> </a></li>
+        <a href="/recipes/<%=recipe.slug%>/edit">Edit</a>
+        <br><br>
+    <%end%>
+</ul>

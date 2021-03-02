@@ -1,0 +1,12 @@
+<h1><%=@recipe.name%></h1>
+<%@recipe.ingredients.each do |ingredient|%>
+    <li><%=ingredient.name%></li>
+<%end%>
+<%=@recipe.instructions%>
+
+<form action="/recipes/<%=@recipe.slug%>/delete" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Tweet">
+</form>
+
+<a href="/recipes/<%=@recipe.slug%>/edit">Edit Recipe </a>

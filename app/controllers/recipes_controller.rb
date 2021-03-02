@@ -10,14 +10,15 @@ class RecipesController < ApplicationController
     end
 
     post '/recipes' do
-        @user = current_user
-        if params[:instructions] == ""
-            flash[:message] = "Instructions required."
-            redirect '/recipes/new'
-        else
-            @recipe = Recipe.create(:instructions => params[:instructions], :user_id => @user.id)
-            redirect '/recipes'
+        @recipe = Recipe.create(params[:recipe])
+        @recipe.user_id = current_user.id
+        params[:ingredients].each do |ingredient|
+            @recipe.ingredients << Ingredient.find_by_id(ingredient)
         end
+
+        @recipe.save
+
+        redirect '/recipes'
     end
 
     get '/recipes/new' do
@@ -38,7 +39,7 @@ class RecipesController < ApplicationController
 
     get '/recipes/:slug/edit' do
         if logged_in?
-            @recipe = Recipe.find_by_id(params[:id])
+            @recipe = Recipe.find_by_slug(params[:slug])
             if @recipe && @recipe.user == current_user
                 erb :'/recipes/edit'
             else
@@ -49,31 +50,26 @@ class RecipesController < ApplicationController
         end
     end
 
-    patch '/recipes/:id' do
+    patch '/recipes/:slug' do
         if logged_in?
-            if params[:content] == ""
-                redirect "/recipes/#{params[:id]}/edit"
-            else 
-                @recipe = Recipe.find_by_id(params[:id])
-                if @recipe && @recipe.user == current_user
-                    if @recipe.update(instructions: params[:instructions])
-                        redirect "/recipes/#{@recipe.slug}"
-                    else
-                        redirect "/recipes/#{@recipe.slug}/edit"
-                    end
-                    redirect '/recipes'
-                end
+            @recipe = Recipe.find_by_slug(params[:slug])
+            @recipe.update(params[:recipe])
+            @recipe.ingredients.destroy_all
+            params[:ingredients].each do |ingredient|
+                @recipe.ingredients << Ingredient.find_by_id(ingredient)
             end
+            @recipe.save
+            redirect "/recipes/#{@recipe.slug}"
         else
             redirect '/login'
         end
     end
 
-    delete '/recipes/:id/delete' do
+    delete '/recipes/:slug/delete' do
         if logged_in?
-            @recipe = Recipe.find_by_id(params[:id])
+            @recipe = Recipe.find_by_slug(params[:slug])
             if @recipe && @recipe.user == current_user
-                @recipe.delete
+                @recipe.destroy
             end
             redirect '/recipes'
         else

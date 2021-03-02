@@ -1,10 +1,9 @@
 class User < ActiveRecord::Base
     validates_presence_of :email, :username
-    validates_uniqueness_of :email, :message
-    validates_uniqueness_of :username, :message
+    validates_uniqueness_of :email, message: "Email is already used for another user."
+    validates_uniqueness_of :username, message: "Username is taken"
     has_secure_password
     has_many :recipes 
-    has_many :ingredients
   
     def slug
       username.downcase.split(" ").join("-")
